@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JESCO Analytics - Trade Analytics & Commissions</title>
+
+  <!-- Inter Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0A327F',
+            'primary-hover': '#052B6C',
+            accent: '#314E8D',
+            'bg-light': '#F1F6FB',
+            text: '#1A1A1A',
+          },
+        },
+      },
+    }
+  </script>
+  
+  <!-- Chart.js for visualizations -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <style>
+    :root {
+      --color-primary: #0A327F;
+      --color-primary-hover: #052B6C;
+      --color-accent: #314E8D;
+      --color-bg-light: #F1F6FB;
+      --color-text: #1A1A1A;
+    }
+    
+    body {
+      color: var(--color-text);
+      font-family: "Inter", Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+    }
+    
+    h1, h2, h3 {
+      color: var(--color-primary);
+      font-weight: 800;
+    }
+    
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+      font-weight: 600;
+      color: #fff !important;
+      text-decoration: none !important;
+      background-color: var(--color-primary);
+      box-shadow: 0 2px 4px rgba(0,0,0,.1);
+      transition: background-color .25s ease;
+      border: none;
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--color-primary-hover);
+      color: #fff !important;
+      text-decoration: none !important;
+    }
+    
+    .bg-light {
+      background: var(--color-bg-light);
+    }
+    
+    .text-accent {
+      color: var(--color-accent);
+    }
+
+    .commission-tag {
+      background-color: #D1FAE5;
+      color: #065F46;
+      padding: 0.125rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .nav-active {
+      color: var(--color-primary);
+      border-bottom: 2px solid var(--color-primary);
+    }
+
+    .trade-row:hover {
+      background-color: var(--color-bg-light);
+    }
+  </style>
+</head>
+
+<body class="bg-light min-h-screen">
+  <!-- Navigation Header -->
+  <header class="bg-white shadow-sm border-b">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <!-- Brand -->
+        <div class="flex items-center">
+          <h1 class="text-xl font-extrabold mr-6" style="color: var(--color-primary)">
+            JESCO Analytics
+          </h1>
+          <div class="text-sm text-gray-500">
+            <span id="portalName">JESCO</span> Banking Portal
+          </div>
+        </div>
+        
+        <!-- Navigation -->
+        <nav class="hidden md:flex space-x-8">
+          <a href="02-portfolio-dashboard.html" class="text-gray-600 hover:text-gray-900 pb-4 text-sm font-medium">Portfolio</a>
+          <a href="03-trade-analytics.html" class="nav-active pb-4 text-sm font-medium">Trade Analytics</a>
+          <a href="04-performance-reports.html" class="text-gray-600 hover:text-gray-900 pb-4 text-sm font-medium">Performance</a>
+          <a href="05-fixed-income.html" class="text-gray-600 hover:text-gray-900 pb-4 text-sm font-medium">Fixed Income</a>
+        </nav>
+        
+        <!-- User Menu -->
+        <div class="relative">
+          <div class="flex items-center space-x-4">
+            <!-- Account Selector -->
+            <select class="text-sm border border-gray-300 rounded-lg px-3 py-1">
+              <option>Master Account - JESCO001</option>
+              <option>Sub-Account - JESCO001-A</option>
+              <option>Sub-Account - JESCO001-B</option>
+            </select>
+            
+            <!-- User Info -->
+            <div class="flex items-center space-x-2">
+              <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white text-sm font-semibold">
+                JA
+              </div>
+              <span class="text-sm text-gray-700">JESCO Admin</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Page Header -->
+    <div class="mb-8">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="text-3xl font-bold mb-2" style="color: var(--color-primary)">Trade Analytics</h2>
+          <p class="text-gray-600" id="pageDescription">Trade execution history and commission calculations</p>
+        </div>
+        <div class="flex items-center space-x-3">
+          <select class="border border-gray-300 rounded-lg px-3 py-2 text-sm">
+            <option>Last 30 Days</option>
+            <option>Last 90 Days</option>
+            <option>Year to Date</option>
+            <option>Custom Range</option>
+          </select>
+          <button class="btn-primary">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            Export Data
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trade Summary Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <!-- Total Trade Volume -->
+      <div class="bg-white rounded-xl p-6 shadow-sm">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-600">Trade Volume (30 Days)</p>
+            <p class="text-3xl font-bold text-primary">$3.2M</p>
+          </div>
+          <div class="text-accent">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="mt-4 flex items-center text-sm">
+          <span class="text-green-600 font-semibold">+18.5%</span>
+          <span class="text-gray-500 ml-1">vs prior month</span>
+        </div>
+      </div>
+
+      <!-- Number of Trades -->
+      <div class="bg-white rounded-xl p-6 shadow-sm">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-600">Total Trades</p>
+            <p class="text-3xl font-bold text-primary">47</p>
+          </div>
+          <div class="text-accent">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="mt-4 flex items-center text-sm">
+          <span class="text-gray-600">Average: $68K per trade</span>
+        </div>
+      </div>
+
+      <!-- Commissions Received -->
+      <div class="bg-white rounded-xl p-6 shadow-sm" id="commissionsCard" style="display: none;">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-600">Commissions Received</p>
+            <p class="text-3xl font-bold text-primary">$12,840</p>
+          </div>
+          <div class="text-green-500">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="mt-4 flex items-center text-sm">
+          <span class="text-green-600 font-semibold">0.40%</span>
+          <span class="text-gray-500 ml-1">avg commission rate</span>
+        </div>
+      </div>
+
+      <!-- Commissions Paid -->
+      <div class="bg-white rounded-xl p-6 shadow-sm" id="commissionsPaidCard" style="display: none;">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-600">Commissions Paid</p>
+            <p class="text-3xl font-bold text-primary">$3,850</p>
+          </div>
+          <div class="text-blue-500">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0v8m0-8l-8 8-4-4-6 6"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="mt-4 flex items-center text-sm">
+          <span class="text-blue-600 font-semibold">30%</span>
+          <span class="text-gray-500 ml-1">override rate</span>
+        </div>
+      </div>
+
+      <!-- Average Trade Size -->
+      <div class="bg-white rounded-xl p-6 shadow-sm">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-600">Avg Trade Size</p>
+            <p class="text-3xl font-bold text-primary">$68K</p>
+          </div>
+          <div class="text-purple-500">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="mt-4 flex items-center text-sm">
+          <span class="text-gray-600">Range: $15K - $250K</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8" id="chartsSection" style="display: none;">
+      <!-- Trade Volume Chart -->
+      <div class="bg-white rounded-xl p-6 shadow-sm">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-semibold text-primary">Daily Trade Volume</h3>
+          <div class="flex items-center space-x-2 text-sm text-gray-500">
+            <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
+            <span>Volume</span>
+            <div class="w-3 h-3 bg-green-500 rounded-full ml-4"></div>
+            <span>Commissions</span>
+          </div>
+        </div>
+        <div class="h-64">
+          <canvas id="tradeVolumeChart"></canvas>
+        </div>
+      </div>
+      
+      <!-- Commission Distribution Chart -->
+      <div class="bg-white rounded-xl p-6 shadow-sm">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-semibold text-primary">Commission Distribution</h3>
+          <span class="text-sm text-gray-500">One-Level Override Structure</span>
+        </div>
+        <div class="h-64">
+          <canvas id="commissionChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trade History Table -->
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+      <div class="p-6 border-b border-gray-200">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-semibold text-primary">Recent Trades</h3>
+          <div class="flex items-center space-x-3">
+            <select class="border border-gray-300 rounded-lg px-3 py-2 text-sm">
+              <option>All Instruments</option>
+              <option>Fixed Income Only</option>
+              <option>Carbon Credits</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trade Date</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Instrument</th>
+              <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Side</th>
+              <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
+              <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+              <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Notional</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Exchange</th>
+              <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider" id="commissionHeader" style="display: none;">Commission</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <!-- Trade 1 -->
+            <tr class="trade-row hover:bg-gray-50 transition-colors">
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <div>2025-01-27</div>
+                <div class="text-xs text-gray-500">10:32 AM</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm font-medium text-gray-900">US Treasury 2.5%</div>
+                <div class="text-xs text-gray-500">US912828XK47</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-center">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                  BUY
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900">
+                500,000
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900">
+                $98.75
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium text-gray-900">
+                $493,750
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                NYSE
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm commission-column" style="display: none;">
+                <div class="text-green-600 font-medium">$1,975</div>
+                <div class="text-xs text-gray-500">0.40%</div>
+              </td>
+            </tr>
+
+            <!-- Trade 2 -->
+            <tr class="trade-row hover:bg-gray-50 transition-colors">
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <div>2025-01-26</div>
+                <div class="text-xs text-gray-500">2:18 PM</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm font-medium text-gray-900">Apple Inc Corp 3.2%</div>
+                <div class="text-xs text-gray-500">US037833100</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-center">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                  BUY
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900">
+                150,000
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900">
+                $102.40
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium text-gray-900">
+                $153,600
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                NASDAQ
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm commission-column" style="display: none;">
+                <div class="text-green-600 font-medium">$614</div>
+                <div class="text-xs text-gray-500">0.40%</div>
+              </td>
+            </tr>
+
+            <!-- Trade 3 -->
+            <tr class="trade-row hover:bg-gray-50 transition-colors">
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <div>2025-01-25</div>
+                <div class="text-xs text-gray-500">11:45 AM</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm font-medium text-gray-900">California Carbon Allowances</div>
+                <div class="text-xs text-gray-500">CCA2024001</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-center">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                  SELL
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900">
+                5,000 tons
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900">
+                $28.45/ton
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium text-gray-900">
+                $142,250
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                CARB
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm commission-column" style="display: none;">
+                <div class="text-green-600 font-medium">$569</div>
+                <div class="text-xs text-gray-500">0.40%</div>
+              </td>
+            </tr>
+
+            <!-- Trade 4 -->
+            <tr class="trade-row hover:bg-gray-50 transition-colors">
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <div>2025-01-24</div>
+                <div class="text-xs text-gray-500">9:22 AM</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm font-medium text-gray-900">US Treasury 3.0%</div>
+                <div class="text-xs text-gray-500">US912828YM23</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-center">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                  SELL
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900">
+                200,000
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900">
+                $101.25
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium text-gray-900">
+                $202,500
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                NYSE
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm commission-column" style="display: none;">
+                <div class="text-green-600 font-medium">$810</div>
+                <div class="text-xs text-gray-500">0.40%</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Commission Override Details (Saracoti Only) -->
+    <div id="commissionDetails" style="display: none;" class="mt-8 bg-white rounded-xl shadow-sm">
+      <div class="p-6 border-b border-gray-200">
+        <h3 class="text-lg font-semibold text-primary">Commission Override Structure</h3>
+        <p class="text-sm text-gray-600">One-level override configuration and distribution</p>
+      </div>
+      
+      <div class="p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Override Configuration -->
+          <div>
+            <h4 class="text-sm font-semibold text-gray-900 mb-3">Current Configuration</h4>
+            <div class="space-y-3">
+              <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <span class="text-sm text-gray-600">Master Commission Rate</span>
+                <span class="font-medium">0.40%</span>
+              </div>
+              <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <span class="text-sm text-gray-600">Override Rate to Sub-Accounts</span>
+                <span class="font-medium">30%</span>
+              </div>
+              <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <span class="text-sm text-gray-600">Net Retention</span>
+                <span class="font-medium text-green-600">70%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Monthly Summary -->
+          <div>
+            <h4 class="text-sm font-semibold text-gray-900 mb-3">This Month Summary</h4>
+            <div class="space-y-3">
+              <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                <span class="text-sm text-gray-600">Total Commissions Earned</span>
+                <span class="font-medium text-green-600">$12,840</span>
+              </div>
+              <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+                <span class="text-sm text-gray-600">Paid to Sub-Accounts</span>
+                <span class="font-medium text-blue-600">$3,850</span>
+              </div>
+              <div class="flex items-center justify-between p-3 bg-primary/10 rounded-lg">
+                <span class="text-sm text-gray-600">Net Commission Revenue</span>
+                <span class="font-medium text-primary">$8,990</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Check if Saracoti portal
+    const urlParams = new URLSearchParams(window.location.search);
+    const portal = urlParams.get('portal');
+    const isSaracoti = portal === 'saracoti';
+    
+    if (isSaracoti) {
+      document.getElementById('portalName').textContent = 'Saracoti';
+      document.title = 'Saracoti Analytics - Trade Analytics & Commissions';
+      document.getElementById('pageDescription').textContent = 'Trade execution history with commission calculations and override management';
+      
+      // Show Saracoti-specific elements
+      document.getElementById('commissionsCard').style.display = 'block';
+      document.getElementById('commissionsPaidCard').style.display = 'block';
+      document.getElementById('chartsSection').style.display = 'grid';
+      document.getElementById('commissionDetails').style.display = 'block';
+      document.getElementById('commissionHeader').style.display = 'table-cell';
+      
+      // Show commission columns
+      document.querySelectorAll('.commission-column').forEach(col => {
+        col.style.display = 'table-cell';
+      });
+
+      // Initialize charts for Saracoti
+      initializeCharts();
+    }
+
+    function initializeCharts() {
+      // Trade Volume Chart
+      const ctx1 = document.getElementById('tradeVolumeChart').getContext('2d');
+      new Chart(ctx1, {
+        type: 'line',
+        data: {
+          labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+          datasets: [{
+            label: 'Trade Volume ($K)',
+            data: [850, 920, 780, 850],
+            borderColor: '#0A327F',
+            backgroundColor: 'rgba(10, 50, 127, 0.1)',
+            tension: 0.3,
+            yAxisID: 'y'
+          }, {
+            label: 'Commissions ($)',
+            data: [3400, 3680, 3120, 3400],
+            borderColor: '#059669',
+            backgroundColor: 'rgba(5, 150, 105, 0.1)',
+            tension: 0.3,
+            yAxisID: 'y1'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              type: 'linear',
+              display: true,
+              position: 'left',
+            },
+            y1: {
+              type: 'linear',
+              display: true,
+              position: 'right',
+              grid: {
+                drawOnChartArea: false,
+              },
+            }
+          }
+        }
+      });
+
+      // Commission Distribution Chart
+      const ctx2 = document.getElementById('commissionChart').getContext('2d');
+      new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+          labels: ['Retained (70%)', 'Paid to Sub-Accounts (30%)'],
+          datasets: [{
+            data: [70, 30],
+            backgroundColor: ['#0A327F', '#314E8D'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }
+      });
+    }
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('JESCO Trade Analytics loaded');
+    });
+  </script>
+</body>
+</html>

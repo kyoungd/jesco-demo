@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JESCO Analytics - Performance Reports</title>
+
+  <!-- Inter Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0A327F',
+            'primary-hover': '#052B6C',
+            accent: '#314E8D',
+            'bg-light': '#F1F6FB',
+            text: '#1A1A1A',
+          },
+        },
+      },
+    }
+  </script>
+  
+  
+  <style>
+    :root {
+      --color-primary: #0A327F;
+      --color-primary-hover: #052B6C;
+      --color-accent: #314E8D;
+      --color-bg-light: #F1F6FB;
+      --color-text: #1A1A1A;
+    }
+    
+    body {
+      color: var(--color-text);
+      font-family: "Inter", Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+    }
+    
+    h1, h2, h3 {
+      color: var(--color-primary);
+      font-weight: 800;
+    }
+    
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+      font-weight: 600;
+      color: #fff !important;
+      text-decoration: none !important;
+      background-color: var(--color-primary);
+      box-shadow: 0 2px 4px rgba(0,0,0,.1);
+      transition: background-color .25s ease;
+      border: none;
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--color-primary-hover);
+      color: #fff !important;
+      text-decoration: none !important;
+    }
+    
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+      font-weight: 600;
+      color: var(--color-primary) !important;
+      text-decoration: none !important;
+      background-color: white;
+      border: 1px solid var(--color-primary);
+      transition: all .25s ease;
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+    
+    .btn-secondary:hover {
+      background-color: var(--color-bg-light);
+    }
+    
+    .bg-light {
+      background: var(--color-bg-light);
+    }
+    
+    .text-accent {
+      color: var(--color-accent);
+    }
+
+    .performance-positive {
+      color: #059669;
+    }
+
+    .performance-negative {
+      color: #DC2626;
+    }
+
+    .nav-active {
+      color: var(--color-primary);
+      border-bottom: 2px solid var(--color-primary);
+    }
+
+    .report-card {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .report-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+    }
+  </style>
+</head>
+
+<body class="bg-light min-h-screen">
+  <!-- Navigation Header -->
+  <header class="bg-white shadow-sm border-b">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <!-- Brand -->
+        <div class="flex items-center">
+          <h1 class="text-xl font-extrabold mr-6" style="color: var(--color-primary)">
+            JESCO Analytics
+          </h1>
+          <div class="text-sm text-gray-500">
+            <span id="portalName">JESCO</span> Banking Portal
+          </div>
+        </div>
+        
+        <!-- Navigation -->
+        <nav class="hidden md:flex space-x-8">
+          <a href="02-portfolio-dashboard.html" class="text-gray-600 hover:text-gray-900 pb-4 text-sm font-medium">Portfolio</a>
+          <a href="03-trade-analytics.html" class="text-gray-600 hover:text-gray-900 pb-4 text-sm font-medium">Trade Analytics</a>
+          <a href="04-performance-reports.html" class="nav-active pb-4 text-sm font-medium">Performance</a>
+          <a href="05-fixed-income.html" class="text-gray-600 hover:text-gray-900 pb-4 text-sm font-medium">Fixed Income</a>
+        </nav>
+        
+        <!-- User Menu -->
+        <div class="relative">
+          <div class="flex items-center space-x-4">
+            <!-- Account Selector -->
+            <select class="text-sm border border-gray-300 rounded-lg px-3 py-1">
+              <option>Master Account - JESCO001</option>
+              <option>Sub-Account - JESCO001-A</option>
+              <option>Sub-Account - JESCO001-B</option>
+            </select>
+            
+            <!-- User Info -->
+            <div class="flex items-center space-x-2">
+              <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white text-sm font-semibold">
+                JA
+              </div>
+              <span class="text-sm text-gray-700">JESCO Admin</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Page Header -->
+    <div class="mb-8">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="text-3xl font-bold mb-2" style="color: var(--color-primary)">Performance Reports</h2>
+          <p class="text-gray-600">Portfolio performance analysis and historical reporting</p>
+        </div>
+        <div class="flex items-center space-x-3">
+          <select class="border border-gray-300 rounded-lg px-3 py-2 text-sm">
+            <option>All Periods</option>
+            <option>Current Month</option>
+            <option>Current Year</option>
+            <option>Since Inception</option>
+          </select>
+          <button class="btn-primary">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            Generate Report
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Performance Summary Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <!-- MTD Performance -->
+      <div class="bg-white rounded-xl p-6 shadow-sm">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-600">Month to Date</p>
+            <p class="text-3xl font-bold performance-positive">+3.47%</p>
+          </div>
+          <div class="text-green-500">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="mt-4 flex items-center text-sm">
+          <span class="performance-positive font-semibold">+$95,240</span>
+          <span class="text-gray-500 ml-1">P&L</span>
+        </div>
+        <div class="text-xs text-gray-400 mt-1">January 2025</div>
+      </div>
+
+      <!-- YTD Performance -->
+      <div class="bg-white rounded-xl p-6 shadow-sm">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-600">Year to Date</p>
+            <p class="text-3xl font-bold performance-positive">+3.47%</p>
+          </div>
+          <div class="text-green-500">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="mt-4 flex items-center text-sm">
+          <span class="performance-positive font-semibold">+$95,240</span>
+          <span class="text-gray-500 ml-1">P&L</span>
+        </div>
+        <div class="text-xs text-gray-400 mt-1">2025</div>
+      </div>
+
+      <!-- Since Inception -->
+      <div class="bg-white rounded-xl p-6 shadow-sm">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-600">Since Inception</p>
+            <p class="text-3xl font-bold performance-positive">+28.94%</p>
+          </div>
+          <div class="text-accent">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="mt-4 flex items-center text-sm">
+          <span class="performance-positive font-semibold">+$642,180</span>
+          <span class="text-gray-500 ml-1">cumulative</span>
+        </div>
+        <div class="text-xs text-gray-400 mt-1">Mar 15, 2023</div>
+      </div>
+
+      <!-- Annualized Return -->
+      <div class="bg-white rounded-xl p-6 shadow-sm">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-600">Annualized Return</p>
+            <p class="text-3xl font-bold performance-positive">+15.8%</p>
+          </div>
+          <div class="text-purple-500">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="mt-4 flex items-center text-sm">
+          <span class="text-gray-600">vs 8.2% benchmark</span>
+        </div>
+        <div class="text-xs text-gray-400 mt-1">Risk-adjusted</div>
+      </div>
+    </div>
+
+    <!-- Cumulative Performance Summary -->
+    <div class="bg-white rounded-xl shadow-sm mb-8">
+      <div class="p-6 border-b border-gray-200">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-semibold text-primary">Cumulative Performance</h3>
+          <select class="border border-gray-300 rounded-lg px-3 py-2 text-sm">
+            <option>Last 12 Months</option>
+            <option>Since Inception</option>
+            <option>Year to Date</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="p-6">
+        <!-- Performance Metrics Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          <!-- Portfolio Growth -->
+          <div class="text-center p-4 bg-blue-50 rounded-lg">
+            <div class="text-2xl font-bold text-primary mb-1">+28.94%</div>
+            <div class="text-sm text-gray-600 mb-2">Total Growth</div>
+            <div class="text-xs text-gray-500">Since inception (March 15, 2023)</div>
+          </div>
+          
+          <!-- Current Value -->
+          <div class="text-center p-4 bg-green-50 rounded-lg">
+            <div class="text-2xl font-bold text-primary mb-1">$2,847,320</div>
+            <div class="text-sm text-gray-600 mb-2">Current Portfolio</div>
+            <div class="text-xs text-gray-500">vs $2,205,140 initial</div>
+          </div>
+          
+          <!-- vs Benchmark -->
+          <div class="text-center p-4 bg-yellow-50 rounded-lg">
+            <div class="text-2xl font-bold text-green-600 mb-1">+4.3%</div>
+            <div class="text-sm text-gray-600 mb-2">vs Benchmark</div>
+            <div class="text-xs text-gray-500">Outperforming market index</div>
+          </div>
+        </div>
+
+        <!-- Cumulative Growth Timeline -->
+        <div class="space-y-4">
+          <h4 class="text-sm font-semibold text-gray-900">Growth Timeline</h4>
+          
+          <!-- Since Inception -->
+          <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+            <div class="flex items-center">
+              <div class="w-3 h-3 bg-primary rounded-full mr-3"></div>
+              <div>
+                <div class="text-sm font-medium">Since Inception</div>
+                <div class="text-xs text-gray-500">March 15, 2023 - Present</div>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-lg font-semibold performance-positive">+28.94%</div>
+              <div class="text-xs text-gray-500">+$642,180</div>
+            </div>
+          </div>
+
+          <!-- Year to Date -->
+          <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+            <div class="flex items-center">
+              <div class="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
+              <div>
+                <div class="text-sm font-medium">Year to Date</div>
+                <div class="text-xs text-gray-500">Jan 1, 2025 - Present</div>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-lg font-semibold performance-positive">+3.47%</div>
+              <div class="text-xs text-gray-500">+$95,240</div>
+            </div>
+          </div>
+
+          <!-- Last 12 Months -->
+          <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+            <div class="flex items-center">
+              <div class="w-3 h-3 bg-blue-500 rounded-full mr-3"></div>
+              <div>
+                <div class="text-sm font-medium">Last 12 Months</div>
+                <div class="text-xs text-gray-500">Rolling 12-month period</div>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-lg font-semibold performance-positive">+14.82%</div>
+              <div class="text-xs text-gray-500">+$368,950</div>
+            </div>
+          </div>
+
+          <!-- Last Quarter -->
+          <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+            <div class="flex items-center">
+              <div class="w-3 h-3 bg-purple-500 rounded-full mr-3"></div>
+              <div>
+                <div class="text-sm font-medium">Q4 2024</div>
+                <div class="text-xs text-gray-500">Oct 1 - Dec 31, 2024</div>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-lg font-semibold performance-positive">+7.32%</div>
+              <div class="text-xs text-gray-500">+$189,420</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Report Categories -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <!-- Monthly Reports -->
+      <div class="report-card bg-white rounded-xl p-6 shadow-sm border-l-4 border-primary">
+        <div class="flex items-start justify-between mb-4">
+          <div>
+            <h3 class="text-lg font-semibold text-primary mb-2">Monthly Reports</h3>
+            <p class="text-gray-600 text-sm mb-4">
+              Comprehensive monthly performance analysis with detailed breakdowns
+            </p>
+          </div>
+          <div class="text-accent">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 0v1a2 2 0 002 2h4a2 2 0 002-2V7m-6 0h6M9 12l2 2 4-4"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="space-y-2 text-sm text-gray-500 mb-4">
+          <div class="flex justify-between">
+            <span>Last generated:</span>
+            <span>January 31, 2025</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Portfolio NAV:</span>
+            <span class="font-semibold text-primary">$2,847,320</span>
+          </div>
+        </div>
+        <button class="btn-primary w-full">Download January 2025</button>
+      </div>
+
+      <!-- Quarterly Reports -->
+      <div class="report-card bg-white rounded-xl p-6 shadow-sm border-l-4 border-green-500">
+        <div class="flex items-start justify-between mb-4">
+          <div>
+            <h3 class="text-lg font-semibold text-primary mb-2">Quarterly Reports</h3>
+            <p class="text-gray-600 text-sm mb-4">
+              Detailed quarterly analysis with asset allocation and risk metrics
+            </p>
+          </div>
+          <div class="text-green-500">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="space-y-2 text-sm text-gray-500 mb-4">
+          <div class="flex justify-between">
+            <span>Q4 2024 Performance:</span>
+            <span class="performance-positive font-semibold">+7.32%</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Risk-adjusted return:</span>
+            <span class="font-semibold text-primary">Sharpe: 1.84</span>
+          </div>
+        </div>
+        <button class="btn-primary w-full">Download Q4 2024</button>
+      </div>
+
+      <!-- Annual Reports -->
+      <div class="report-card bg-white rounded-xl p-6 shadow-sm border-l-4 border-purple-500">
+        <div class="flex items-start justify-between mb-4">
+          <div>
+            <h3 class="text-lg font-semibold text-primary mb-2">Annual Reports</h3>
+            <p class="text-gray-600 text-sm mb-4">
+              Comprehensive annual performance review with tax documentation
+            </p>
+          </div>
+          <div class="text-purple-500">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="space-y-2 text-sm text-gray-500 mb-4">
+          <div class="flex justify-between">
+            <span>2024 Total Return:</span>
+            <span class="performance-positive font-semibold">+18.76%</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Tax documents:</span>
+            <span class="text-green-600 font-semibold">Ready</span>
+          </div>
+        </div>
+        <button class="btn-primary w-full">Download 2024</button>
+      </div>
+    </div>
+
+    <!-- Recent Reports Table -->
+    <div class="bg-white rounded-xl shadow-sm mb-8">
+      <div class="p-6 border-b border-gray-200">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-semibold text-primary">Recent Reports</h3>
+          <div class="flex items-center space-x-3">
+            <select class="border border-gray-300 rounded-lg px-3 py-2 text-sm">
+              <option>All Report Types</option>
+              <option>Monthly Only</option>
+              <option>Quarterly Only</option>
+              <option>Annual Only</option>
+            </select>
+            <button class="btn-secondary text-sm">
+              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+              </svg>
+              Refresh
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="divide-y divide-gray-200">
+        <!-- Report Item 1 -->
+        <div class="p-6 hover:bg-gray-50 transition-colors">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+              <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 0v1a2 2 0 002 2h4a2 2 0 002-2V7m-6 0h6M9 12l2 2 4-4"></path>
+                </svg>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-900">January 2025 Monthly Report</h4>
+                <div class="flex items-center space-x-4 text-sm text-gray-500">
+                  <span>Generated 2 hours ago</span>
+                  <span>•</span>
+                  <span>18 pages</span>
+                  <span>•</span>
+                  <span class="performance-positive font-semibold">+3.47% MTD</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-3">
+              <span class="text-sm text-green-600 bg-green-100 px-2 py-1 rounded-full">Ready</span>
+              <button class="text-primary hover:text-primary-hover">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Report Item 2 -->
+        <div class="p-6 hover:bg-gray-50 transition-colors">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+              <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                </svg>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-900">Q4 2024 Quarterly Report</h4>
+                <div class="flex items-center space-x-4 text-sm text-gray-500">
+                  <span>Generated Jan 1, 2025</span>
+                  <span>•</span>
+                  <span>45 pages</span>
+                  <span>•</span>
+                  <span class="performance-positive font-semibold">+7.32% Quarter</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-3">
+              <span class="text-sm text-green-600 bg-green-100 px-2 py-1 rounded-full">Ready</span>
+              <button class="text-primary hover:text-primary-hover">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Report Item 3 -->
+        <div class="p-6 hover:bg-gray-50 transition-colors">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+              <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-900">2024 Annual Report</h4>
+                <div class="flex items-center space-x-4 text-sm text-gray-500">
+                  <span>Generated Dec 31, 2024</span>
+                  <span>•</span>
+                  <span>72 pages</span>
+                  <span>•</span>
+                  <span class="performance-positive font-semibold">+18.76% YTD</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-3">
+              <span class="text-sm text-green-600 bg-green-100 px-2 py-1 rounded-full">Ready</span>
+              <button class="text-primary hover:text-primary-hover">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Performance Metrics Table -->
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+      <div class="p-6 border-b border-gray-200">
+        <h3 class="text-lg font-semibold text-primary">Historical Performance Metrics</h3>
+        <p class="text-sm text-gray-600">Period returns and risk-adjusted performance measures</p>
+      </div>
+      
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Period</th>
+              <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Return %</th>
+              <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">P&L ($)</th>
+              <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Benchmark</th>
+              <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Volatility</th>
+              <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Sharpe Ratio</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                January 2025
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm performance-positive font-semibold">
+                +3.47%
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm performance-positive font-medium">
+                $95,240
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900">
+                +2.1%
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900">
+                8.1%
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium text-primary">
+                1.84
+              </td>
+            </tr>
+
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                Q4 2024
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm performance-positive font-semibold">
+                +7.32%
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm performance-positive font-medium">
+                $192,450
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900">
+                +4.8%
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900">
+                7.8%
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium text-primary">
+                1.92
+              </td>
+            </tr>
+
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                2024 Full Year
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm performance-positive font-semibold">
+                +18.76%
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm performance-positive font-medium">
+                $445,820
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900">
+                +12.4%
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900">
+                9.2%
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium text-primary">
+                1.76
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Check if Saracoti portal
+    const urlParams = new URLSearchParams(window.location.search);
+    const portal = urlParams.get('portal');
+    
+    if (portal === 'saracoti') {
+      document.getElementById('portalName').textContent = 'Saracoti';
+      document.title = 'Saracoti Analytics - Performance Reports';
+    }
+
+    // Performance chart removed - using text-based display instead
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('JESCO Performance Reports loaded');
+    });
+  </script>
+</body>
+</html>

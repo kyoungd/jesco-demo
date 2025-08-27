@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JESCO Analytics - UI Demo</title>
+  <title>JESCO Analytics - Banking Portal Login</title>
 
   <!-- Inter Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -62,31 +62,13 @@
       transition: background-color .25s ease;
       border: none;
       cursor: pointer;
+      width: 100%;
     }
     
     .btn-primary:hover {
       background-color: var(--color-primary-hover);
       color: #fff !important;
       text-decoration: none !important;
-    }
-    
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 0.5rem;
-      padding: 1rem 1.5rem;
-      font-weight: 600;
-      color: var(--color-primary) !important;
-      text-decoration: none !important;
-      background-color: white;
-      border: 2px solid var(--color-primary);
-      transition: all .25s ease;
-    }
-    
-    .btn-secondary:hover {
-      background-color: var(--color-primary);
-      color: #fff !important;
     }
     
     .bg-light {
@@ -97,467 +79,267 @@
       color: var(--color-accent);
     }
     
-    .demo-card {
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    .form-input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
     }
     
-    .demo-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    .form-input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(10, 50, 127, 0.1);
     }
-    
-    .gradient-bg {
-      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+
+    .portal-selector {
+      border: 2px solid #e5e7eb;
+      transition: all 0.3s ease;
+    }
+
+    .portal-selector:hover {
+      border-color: var(--color-primary);
+      background-color: var(--color-bg-light);
+    }
+
+    .portal-selector.selected {
+      border-color: var(--color-primary);
+      background-color: var(--color-bg-light);
+      box-shadow: 0 0 0 3px rgba(10, 50, 127, 0.1);
     }
   </style>
 </head>
 
 <body class="bg-light min-h-screen">
-  <!-- Hero Section -->
-  <section class="gradient-bg text-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <div class="text-center">
-        <h1 class="text-4xl md:text-6xl font-extrabold mb-6 text-white">
+  <div class="flex items-center justify-center min-h-screen px-4">
+    <div class="bg-white rounded-xl shadow-lg p-8 max-w-md w-full">
+      <!-- Header -->
+      <div class="text-center mb-8">
+        <h1 class="text-2xl font-extrabold mb-2" style="color: var(--color-primary)">
           JESCO Analytics
         </h1>
-        <p class="text-xl md:text-2xl mb-8 text-blue-100">
-          Banking Call Management & Analytics System
-        </p>
-        <p class="text-lg mb-8 text-blue-200 max-w-3xl mx-auto">
-          Turn missed calls into revenue with AI-powered SMS automation, real-time conversation management, and comprehensive business intelligence reporting.
-        </p>
-        <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-          <a href="01-login.html" class="btn-primary text-lg px-8 py-4">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
-            </svg>
-            Start Demo
-          </a>
-          <a href="#features" class="btn-secondary text-lg px-8 py-4 bg-white/20 border-white text-white hover:bg-white hover:text-primary">
-            View Features
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- System Overview -->
-  <section class="py-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-12">
-        <h2 class="text-3xl md:text-4xl font-bold mb-4">System Overview</h2>
-        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-          Complete call management solution designed specifically for banking and financial services businesses
+        <p class="text-accent text-sm">
+          Banking & Investment Portfolio Management
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        <!-- Feature 1 -->
-        <div class="text-center">
-          <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-            </svg>
+      <!-- Portal Selection -->
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-gray-700 mb-3">
+          Select Portal
+        </label>
+        <div class="grid grid-cols-2 gap-3">
+          <!-- JESCO Portal -->
+          <div class="portal-selector rounded-lg p-4 cursor-pointer text-center" onclick="selectPortal('jesco')">
+            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+              <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+              </svg>
+            </div>
+            <h3 class="font-semibold text-sm">JESCO</h3>
+            <p class="text-xs text-gray-500">Banking Portal</p>
           </div>
-          <h3 class="text-xl font-semibold mb-2">Missed Call Detection</h3>
-          <p class="text-gray-600">Automatically detect missed calls and trigger immediate SMS responses within 5 seconds</p>
-        </div>
 
-        <!-- Feature 2 -->
-        <div class="text-center">
-          <div class="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-            </svg>
+          <!-- Saracoti Portal -->
+          <div class="portal-selector rounded-lg p-4 cursor-pointer text-center" onclick="selectPortal('saracoti')">
+            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+              <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+              </svg>
+            </div>
+            <h3 class="font-semibold text-sm">Saracoti</h3>
+            <p class="text-xs text-gray-500">Commission Portal</p>
           </div>
-          <h3 class="text-xl font-semibold mb-2">AI Conversation Management</h3>
-          <p class="text-gray-600">Intelligent AI handles customer inquiries with seamless human takeover capabilities</p>
         </div>
-
-        <!-- Feature 3 -->
-        <div class="text-center">
-          <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-            </svg>
-          </div>
-          <h3 class="text-xl font-semibold mb-2">Real-Time Analytics</h3>
-          <p class="text-gray-600">Comprehensive dashboards with live metrics and performance tracking</p>
-        </div>
-
-        <!-- Feature 4 -->
-        <div class="text-center">
-          <div class="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-          </div>
-          <h3 class="text-xl font-semibold mb-2">Revenue Tracking</h3>
-          <p class="text-gray-600">Track recovered revenue and ROI from missed call conversions</p>
-        </div>
+        <input type="hidden" id="selectedPortal" value="">
       </div>
-    </div>
-  </section>
+      
+      <!-- Login Form -->
+      <form id="loginForm" class="space-y-6">
+        <!-- Account ID Field -->
+        <div>
+          <label for="accountId" class="block text-sm font-medium text-gray-700 mb-2">
+            Account ID
+          </label>
+          <input 
+            type="text" 
+            id="accountId" 
+            name="accountId" 
+            class="form-input"
+            placeholder="Enter your account identifier"
+            required
+          />
+          <p class="text-xs text-gray-500 mt-1">Master or Sub-Account identifier</p>
+        </div>
 
-  <!-- Demo Navigation -->
-  <section id="features" class="py-16 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-12">
-        <h2 class="text-3xl md:text-4xl font-bold mb-4">Interactive Demo Pages</h2>
-        <p class="text-xl text-gray-600">
-          Explore the complete JESCO Analytics interface with our interactive demonstrations
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Login Demo -->
-        <div class="demo-card bg-white rounded-xl shadow-lg overflow-hidden">
-          <div class="p-6">
-            <div class="flex items-center mb-4">
-              <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
-                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
-                </svg>
-              </div>
-              <h3 class="text-xl font-semibold">Authentication</h3>
-            </div>
-            <p class="text-gray-600 mb-6">
-              Secure business login with professional design and user-friendly interface
-            </p>
-            <div class="space-y-2 text-sm text-gray-500 mb-6">
-              <div class="flex justify-between">
-                <span>• Secure login form</span>
-              </div>
-              <div class="flex justify-between">
-                <span>• Password visibility toggle</span>
-              </div>
-              <div class="flex justify-between">
-                <span>• Loading states</span>
-              </div>
-              <div class="flex justify-between">
-                <span>• Responsive design</span>
-              </div>
-            </div>
-            <a href="01-login.html" class="btn-primary w-full">View Login Demo</a>
+        <!-- Password Field -->
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
+            Secure Access Code
+          </label>
+          <div class="relative">
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              class="form-input pr-10"
+              placeholder="Enter your secure access code"
+              required
+            />
+            <button 
+              type="button" 
+              class="absolute inset-y-0 right-0 pr-3 flex items-center"
+              onclick="togglePassword()"
+            >
+              <svg id="eyeIcon" class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+              </svg>
+            </button>
           </div>
         </div>
-
-        <!-- Dashboard Demo -->
-        <div class="demo-card bg-white rounded-xl shadow-lg overflow-hidden">
-          <div class="p-6">
-            <div class="flex items-center mb-4">
-              <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
-                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                </svg>
-              </div>
-              <h3 class="text-xl font-semibold">Main Dashboard</h3>
-            </div>
-            <p class="text-gray-600 mb-6">
-              Real-time overview with key metrics, activity feeds, and conversation management
-            </p>
-            <div class="space-y-2 text-sm text-gray-500 mb-6">
-              <div class="flex justify-between">
-                <span>• Live activity monitoring</span>
-              </div>
-              <div class="flex justify-between">
-                <span>• KPI metric cards</span>
-              </div>
-              <div class="flex justify-between">
-                <span>• Conversation management</span>
-              </div>
-              <div class="flex justify-between">
-                <span>• Real-time updates</span>
-              </div>
-            </div>
-            <a href="02-portfolio-dashboard.html" class="btn-primary w-full">View Dashboard Demo</a>
+        
+        <!-- Remember Me & Recovery -->
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <input 
+              id="remember" 
+              name="remember" 
+              type="checkbox" 
+              class="h-4 w-4 rounded border-gray-300" 
+              style="accent-color: var(--color-primary)"
+            />
+            <label for="remember" class="ml-2 block text-sm text-gray-700">
+              Remember this device
+            </label>
           </div>
-        </div>
-
-        <!-- Analytics Demo -->
-        <div class="demo-card bg-white rounded-xl shadow-lg overflow-hidden">
-          <div class="p-6">
-            <div class="flex items-center mb-4">
-              <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
-                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                </svg>
-              </div>
-              <h3 class="text-xl font-semibold">Call Analytics</h3>
-            </div>
-            <p class="text-gray-600 mb-6">
-              Detailed call patterns analysis with interactive charts and performance metrics
-            </p>
-            <div class="space-y-2 text-sm text-gray-500 mb-6">
-              <div class="flex justify-between">
-                <span>• Interactive charts</span>
-              </div>
-              <div class="flex justify-between">
-                <span>• Call volume tracking</span>
-              </div>
-              <div class="flex justify-between">
-                <span>• Response time analysis</span>
-              </div>
-              <div class="flex justify-between">
-                <span>• Performance heatmaps</span>
-              </div>
-            </div>
-            <a href="03-trade-analytics.html" class="btn-primary w-full">View Analytics Demo</a>
-          </div>
-        </div>
-
-        <!-- Reports Demo -->
-        <div class="demo-card bg-white rounded-xl shadow-lg overflow-hidden">
-          <div class="p-6">
-            <div class="flex items-center mb-4">
-              <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mr-4">
-                <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                </svg>
-              </div>
-              <h3 class="text-xl font-semibold">Reports & Insights</h3>
-            </div>
-            <p class="text-gray-600 mb-6">
-              Comprehensive reporting system with custom report builder and export capabilities
-            </p>
-            <div class="space-y-2 text-sm text-gray-500 mb-6">
-              <div class="flex justify-between">
-                <span>• Executive summaries</span>
-              </div>
-              <div class="flex justify-between">
-                <span>• Revenue analysis</span>
-              </div>
-              <div class="flex justify-between">
-                <span>• Custom report builder</span>
-              </div>
-              <div class="flex justify-between">
-                <span>• Export functionality</span>
-              </div>
-            </div>
-            <a href="04-performance-reports.html" class="btn-primary w-full">View Reports Demo</a>
-          </div>
-        </div>
-
-        <!-- Fixed Income Demo -->
-        <div class="demo-card bg-white rounded-xl shadow-lg overflow-hidden">
-          <div class="p-6">
-            <div class="flex items-center mb-4">
-              <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mr-4">
-                <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
-                </svg>
-              </div>
-              <h3 class="text-xl font-semibold">Fixed Income</h3>
-            </div>
-            <p class="text-gray-600 mb-6">
-              Comprehensive bond portfolio management with yield analysis and risk metrics
-            </p>
-            <div class="space-y-2 text-sm text-gray-500 mb-6">
-              <div class="flex justify-between">
-                <span>• Bond holdings overview</span>
-              </div>
-              <div class="flex justify-between">
-                <span>• Yield curve analysis</span>
-              </div>
-              <div class="flex justify-between">
-                <span>• Credit quality breakdown</span>
-              </div>
-              <div class="flex justify-between">
-                <span>• Duration risk metrics</span>
-              </div>
-            </div>
-            <a href="05-fixed-income.html" class="btn-primary w-full">View Fixed Income Demo</a>
-          </div>
-        </div>
-
-        <!-- Full Journey Demo -->
-        <div class="demo-card bg-gradient-to-br from-primary to-accent rounded-xl shadow-lg overflow-hidden text-white">
-          <div class="p-6">
-            <div class="flex items-center mb-4">
-              <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center mr-4">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                </svg>
-              </div>
-              <h3 class="text-xl font-semibold text-white">Complete Journey</h3>
-            </div>
-            <p class="text-blue-100 mb-6">
-              Experience the full user journey from login through all major system features
-            </p>
-            <div class="space-y-2 text-sm text-blue-200 mb-6">
-              <div class="flex justify-between">
-                <span>• End-to-end workflow</span>
-              </div>
-              <div class="flex justify-between">
-                <span>• All features integrated</span>
-              </div>
-              <div class="flex justify-between">
-                <span>• Realistic data</span>
-              </div>
-              <div class="flex justify-between">
-                <span>• Complete experience</span>
-              </div>
-            </div>
-            <a href="01-login.html" class="inline-flex items-center justify-center w-full px-6 py-3 border-2 border-white text-white font-medium rounded-lg hover:bg-white hover:text-primary transition-all duration-200">
-              Start Full Demo Journey
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Technical Specifications -->
-  <section class="py-16 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-12">
-        <h2 class="text-3xl md:text-4xl font-bold mb-4">Technical Specifications</h2>
-        <p class="text-xl text-gray-600">
-          Built with modern web technologies for optimal performance and user experience
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Frontend Stack -->
-        <div class="bg-white rounded-xl p-6 shadow-sm">
-          <h3 class="text-xl font-semibold mb-4 text-primary">Frontend Stack</h3>
-          <ul class="space-y-2 text-gray-600">
-            <li class="flex items-center">
-              <svg class="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              Next.js with TypeScript
-            </li>
-            <li class="flex items-center">
-              <svg class="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              Tailwind CSS
-            </li>
-            <li class="flex items-center">
-              <svg class="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              Chart.js for analytics
-            </li>
-            <li class="flex items-center">
-              <svg class="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              Responsive design
-            </li>
-          </ul>
-        </div>
-
-        <!-- Design System -->
-        <div class="bg-white rounded-xl p-6 shadow-sm">
-          <h3 class="text-xl font-semibold mb-4 text-primary">Design System</h3>
-          <ul class="space-y-2 text-gray-600">
-            <li class="flex items-center">
-              <svg class="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              Inter font family
-            </li>
-            <li class="flex items-center">
-              <svg class="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              Consistent color palette
-            </li>
-            <li class="flex items-center">
-              <svg class="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              WCAG 2.1 AA compliant
-            </li>
-            <li class="flex items-center">
-              <svg class="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              Component-based architecture
-            </li>
-          </ul>
-        </div>
-
-        <!-- Performance -->
-        <div class="bg-white rounded-xl p-6 shadow-sm">
-          <h3 class="text-xl font-semibold mb-4 text-primary">Performance</h3>
-          <ul class="space-y-2 text-gray-600">
-            <li class="flex items-center">
-              <svg class="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              &lt; 1.5s First Contentful Paint
-            </li>
-            <li class="flex items-center">
-              <svg class="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              &lt; 3s Time to Interactive
-            </li>
-            <li class="flex items-center">
-              <svg class="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              Real-time updates
-            </li>
-            <li class="flex items-center">
-              <svg class="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              Mobile optimized
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="bg-primary text-white py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center">
-        <h3 class="text-2xl font-bold mb-4">JESCO Analytics</h3>
-        <p class="text-blue-200 mb-6">
-          Banking Call Management & Analytics System - Phase 1 Demo
-        </p>
-        <div class="flex justify-center space-x-6">
-          <a href="01-login.html" class="text-blue-200 hover:text-white transition-colors">
-            Start Demo
-          </a>
-          <a href="#features" class="text-blue-200 hover:text-white transition-colors">
-            Features
-          </a>
-          <a href="mailto:demo@jesco-analytics.com" class="text-blue-200 hover:text-white transition-colors">
-            Contact
+          
+          <a href="#" class="text-sm hover:underline" style="color: var(--color-primary)">
+            Account recovery?
           </a>
         </div>
-        <div class="mt-8 pt-8 border-t border-blue-600 text-blue-300 text-sm">
-          <p>&copy; 2025 JESCO Analytics. All rights reserved. Demo interface for client presentation.</p>
+        
+        <!-- Login Button -->
+        <button type="submit" class="btn-primary" id="loginBtn">
+          <span id="loginBtnText">Access Portfolio</span>
+          <svg id="loginSpinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+        </button>
+      </form>
+      
+      <!-- Error Message -->
+      <div id="errorMessage" class="mt-4 p-3 bg-red-50 border border-red-200 rounded-md text-red-700 text-sm hidden">
+        <!-- Error message will be displayed here -->
+      </div>
+
+      <!-- Security Notice -->
+      <div class="mt-6 p-3 bg-blue-50 border border-blue-200 rounded-md">
+        <div class="flex items-start">
+          <svg class="w-5 h-5 text-blue-500 mt-0.5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+          </svg>
+          <div>
+            <h4 class="text-sm font-medium text-blue-800">Secure Banking Portal</h4>
+            <p class="text-xs text-blue-700 mt-1">
+              All data is encrypted in transit and at rest. You can only access your entitled Master/Sub-Account data.
+            </p>
+          </div>
         </div>
       </div>
+      
+      <!-- Footer -->
+      <div class="mt-8 text-center">
+        <p class="text-xs text-gray-500">
+          © 2025 JESCO Analytics. SOC 2 Type II Compliant Banking Platform.
+        </p>
+      </div>
     </div>
-  </footer>
+  </div>
 
   <script>
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
+    let selectedPortal = '';
+
+    // Portal selection
+    function selectPortal(portal) {
+      selectedPortal = portal;
+      document.getElementById('selectedPortal').value = portal;
+      
+      // Remove selected class from all portals
+      document.querySelectorAll('.portal-selector').forEach(el => {
+        el.classList.remove('selected');
       });
+      
+      // Add selected class to clicked portal
+      event.target.closest('.portal-selector').classList.add('selected');
+      
+      // Update login button text based on portal
+      const loginBtnText = document.getElementById('loginBtnText');
+      if (portal === 'jesco') {
+        loginBtnText.textContent = 'Access JESCO Portfolio';
+      } else {
+        loginBtnText.textContent = 'Access Saracoti Portal';
+      }
+    }
+
+    // Toggle password visibility
+    function togglePassword() {
+      const passwordField = document.getElementById('password');
+      const eyeIcon = document.getElementById('eyeIcon');
+      
+      if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        eyeIcon.innerHTML = `
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"></path>
+        `;
+      } else {
+        passwordField.type = 'password';
+        eyeIcon.innerHTML = `
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+        `;
+      }
+    }
+    
+    // Handle form submission
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const loginBtn = document.getElementById('loginBtn');
+      const loginBtnText = document.getElementById('loginBtnText');
+      const loginSpinner = document.getElementById('loginSpinner');
+      const errorMessage = document.getElementById('errorMessage');
+      
+      // Validate portal selection
+      if (!selectedPortal) {
+        errorMessage.textContent = 'Please select a portal (JESCO or Saracoti) before logging in.';
+        errorMessage.classList.remove('hidden');
+        return;
+      }
+      
+      // Show loading state
+      loginBtnText.textContent = 'Authenticating...';
+      loginSpinner.classList.remove('hidden');
+      loginBtn.disabled = true;
+      errorMessage.classList.add('hidden');
+      
+      // Simulate authentication process
+      setTimeout(function() {
+        // For demo purposes, redirect based on selected portal
+        if (selectedPortal === 'jesco') {
+          window.location.href = '02-portfolio-dashboard.html';
+        } else {
+          window.location.href = '02-portfolio-dashboard.html?portal=saracoti';
+        }
+      }, 2000);
     });
 
-    // Initialize page
+    // Initialize with JESCO portal selected
     document.addEventListener('DOMContentLoaded', function() {
-      console.log('JESCO Analytics Demo Hub loaded');
+      selectPortal('jesco');
     });
   </script>
 </body>

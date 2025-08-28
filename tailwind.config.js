@@ -8,10 +8,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#0A327F',
-        'primary-hover': '#052B6C',
+        primary: {
+          DEFAULT: '#0A327F',
+          hover: '#052B6C'
+        },
         accent: '#314E8D',
         'bg-light': '#F1F6FB',
+        'primary-hover': '#052B6C',
         text: '#1A1A1A',
       },
       fontFamily: {

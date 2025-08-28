@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/trades.json",
+  "title": "Trades",
+  "type": "object",
+  "properties": {
+    "filters": {
+      "type": "object",
+      "properties": {
+        "range": {
+          "type": "string"
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "tradeVolume": {
+          "$ref": "common.json#/$defs/Money"
+        },
+        "tradeCount": {
+          "type": "integer"
+        },
+        "avgPerTrade": {
+          "$ref": "common.json#/$defs/Money"
+        }
+      }
+    },
+    "rows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "tradeId": {
+            "type": "string"
+          },
+          "executedAt": {
+            "$ref": "common.json#/$defs/IsoDateTime"
+          },
+          "instrument": {
+            "type": "string"
+          },
+          "side": {
+            "type": "string",
+            "enum": [
+              "BUY",
+              "SELL"
+            ]
+          },
+          "quantity": {
+            "type": "number"
+          },
+          "price": {
+            "$ref": "common.json#/$defs/Money"
+          },
+          "notional": {
+            "$ref": "common.json#/$defs/Money"
+          },
+          "venue": {
+            "type": "string"
+          },
+          "fees": {
+            "$ref": "common.json#/$defs/Money"
+          }
+        },
+        "required": [
+          "executedAt",
+          "instrument",
+          "side",
+          "quantity",
+          "price"
+        ]
+      }
+    }
+  },
+  "required": [
+    "rows"
+  ]
+}

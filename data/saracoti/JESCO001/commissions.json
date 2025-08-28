@@ -1,0 +1,37 @@
+{
+  "config": {
+    "ratePct": 0.004,
+    "override": {
+      "payeeAccountId": "INTRO-123",
+      "pctOfGross": 0.3
+    }
+  },
+  "snapshots": [
+    {
+      "period": "2025-08",
+      "earned": 12840,
+      "paid": 3850,
+      "retained": 8990
+    }
+  ],
+  "byTrade": [
+    {
+      "tradeId": "T-001",
+      "baseNotional": 85000,
+      "calcGross": 340,
+      "paidOut": 102,
+      "retained": 238
+    },
+    {
+      "tradeId": "T-002",
+      "baseNotional": 496000,
+      "calcGross": 1984,
+      "paidOut": 596,
+      "retained": 1388
+    }
+  ],
+  "distribution": {
+    "retainedPct": 0.7,
+    "paidPct": 0.3
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "movements": [
+    {
+      "type": "transfer",
+      "title": "Transfer to Fixed Income Desk",
+      "note": "For bond purchase allocation",
+      "amount": -100000,
+      "when": "2025-08-26"
+    },
+    {
+      "type": "profit",
+      "title": "Profits Taken",
+      "note": "Carbon credit position partial exit",
+      "amount": 45800,
+      "when": "2025-08-24"
+    }
+  ]
+}

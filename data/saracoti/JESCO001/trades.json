@@ -1,0 +1,32 @@
+{
+  "filters": {
+    "range": "last_30_days"
+  },
+  "summary": {
+    "tradeVolume": 3200000,
+    "tradeCount": 47,
+    "avgPerTrade": 68000
+  },
+  "rows": [
+    {
+      "executedAt": "2025-08-25T14:30:00Z",
+      "instrument": "EU ETS Dec-25",
+      "side": "BUY",
+      "quantity": 10000,
+      "price": 8.5,
+      "notional": 85000,
+      "venue": "OTC",
+      "fees": 0
+    },
+    {
+      "executedAt": "2025-08-20T11:00:00Z",
+      "instrument": "US 10Y",
+      "side": "SELL",
+      "quantity": 5000,
+      "price": 99.2,
+      "notional": 496000,
+      "venue": "Exchange",
+      "fees": 120
+    }
+  ]
+}

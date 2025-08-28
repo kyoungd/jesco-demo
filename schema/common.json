@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/common.json",
+  "title": "Common Types",
+  "type": "object",
+  "$defs": {
+    "Money": {
+      "type": "number"
+    },
+    "Pct": {
+      "type": "number",
+      "description": "Proportion as decimal (e.g., 0.0347 for 3.47%)"
+    },
+    "IsoDate": {
+      "type": "string",
+      "format": "date"
+    },
+    "IsoDateTime": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

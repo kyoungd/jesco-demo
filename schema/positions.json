@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/positions.json",
+  "title": "Positions & Holdings",
+  "type": "object",
+  "properties": {
+    "positions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number"
+          },
+          "price": {
+            "$ref": "common.json#/$defs/Money"
+          },
+          "marketValue": {
+            "$ref": "common.json#/$defs/Money"
+          },
+          "strategyTag": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "symbol",
+          "quantity"
+        ]
+      }
+    }
+  },
+  "required": [
+    "positions"
+  ]
+}

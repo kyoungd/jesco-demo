@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/activity.json",
+  "title": "Cash & Movements",
+  "type": "object",
+  "properties": {
+    "movements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "transfer",
+              "profit",
+              "deposit",
+              "withdrawal",
+              "fee",
+              "interest",
+              "dividend",
+              "other"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          },
+          "amount": {
+            "$ref": "common.json#/$defs/Money"
+          },
+          "when": {
+            "oneOf": [
+              {
+                "$ref": "common.json#/$defs/IsoDate"
+              },
+              {
+                "$ref": "common.json#/$defs/IsoDateTime"
+              }
+            ]
+          }
+        },
+        "required": [
+          "type",
+          "amount",
+          "when"
+        ]
+      }
+    }
+  },
+  "required": [
+    "movements"
+  ]
+}

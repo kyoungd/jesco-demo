@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/portfolio.json",
+  "title": "Portfolio Summary",
+  "type": "object",
+  "properties": {
+    "asOf": {
+      "$ref": "common.json#/$defs/IsoDateTime"
+    },
+    "totals": {
+      "type": "object",
+      "properties": {
+        "portfolioValue": {
+          "$ref": "common.json#/$defs/Money"
+        },
+        "cash": {
+          "$ref": "common.json#/$defs/Money"
+        },
+        "fixedIncome": {
+          "$ref": "common.json#/$defs/Money"
+        },
+        "carbonCredits": {
+          "$ref": "common.json#/$defs/Money"
+        }
+      },
+      "required": [
+        "portfolioValue"
+      ]
+    },
+    "performanceToday": {
+      "type": "object",
+      "properties": {
+        "abs": {
+          "$ref": "common.json#/$defs/Money"
+        },
+        "pct": {
+          "$ref": "common.json#/$defs/Pct"
+        }
+      }
+    }
+  },
+  "required": [
+    "totals"
+  ]
+}

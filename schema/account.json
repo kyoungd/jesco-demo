@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/account.json",
+  "title": "Account",
+  "type": "object",
+  "properties": {
+    "accountId": {
+      "type": "string"
+    },
+    "portal": {
+      "type": "string",
+      "enum": [
+        "jesco",
+        "saracoti"
+      ]
+    },
+    "displayName": {
+      "type": "string"
+    },
+    "lastLoginAt": {
+      "$ref": "common.json#/$defs/IsoDateTime"
+    }
+  },
+  "required": [
+    "accountId",
+    "portal",
+    "displayName"
+  ]
+}

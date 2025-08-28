@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/performance.json",
+  "title": "Performance",
+  "type": "object",
+  "properties": {
+    "mtd": {
+      "type": "object",
+      "properties": {
+        "pct": {
+          "$ref": "common.json#/$defs/Pct"
+        },
+        "pnl": {
+          "$ref": "common.json#/$defs/Money"
+        },
+        "label": {
+          "type": "string"
+        }
+      }
+    },
+    "ytd": {
+      "type": "object",
+      "properties": {
+        "pct": {
+          "$ref": "common.json#/$defs/Pct"
+        },
+        "pnl": {
+          "$ref": "common.json#/$defs/Money"
+        },
+        "label": {
+          "type": "string"
+        }
+      }
+    },
+    "sinceInception": {
+      "type": "object",
+      "properties": {
+        "pct": {
+          "$ref": "common.json#/$defs/Pct"
+        },
+        "pnl": {
+          "$ref": "common.json#/$defs/Money"
+        },
+        "since": {
+          "$ref": "common.json#/$defs/IsoDate"
+        }
+      }
+    },
+    "annualized": {
+      "type": "object",
+      "properties": {
+        "pct": {
+          "$ref": "common.json#/$defs/Pct"
+        },
+        "benchmarkPct": {
+          "$ref": "common.json#/$defs/Pct"
+        }
+      }
+    },
+    "history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "period": {
+            "type": "string"
+          },
+          "returnPct": {
+            "$ref": "common.json#/$defs/Pct"
+          },
+          "pnl": {
+            "$ref": "common.json#/$defs/Money"
+          },
+          "excessPct": {
+            "$ref": "common.json#/$defs/Pct"
+          },
+          "volPct": {
+            "$ref": "common.json#/$defs/Pct"
+          },
+          "sharpe": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "period",
+          "returnPct"
+        ]
+      }
+    }
+  }
+}

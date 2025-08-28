@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/fixed-income.json",
+  "title": "Fixed Income",
+  "type": "object",
+  "properties": {
+    "asOf": {
+      "$ref": "common.json#/$defs/IsoDateTime"
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "$ref": "common.json#/$defs/Money"
+        },
+        "pnlToday": {
+          "$ref": "common.json#/$defs/Money"
+        },
+        "yieldPct": {
+          "$ref": "common.json#/$defs/Pct"
+        },
+        "modifiedDuration": {
+          "type": "number"
+        },
+        "avgRating": {
+          "type": "string"
+        }
+      }
+    },
+    "bonds": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "isin": {
+            "type": "string"
+          },
+          "issuer": {
+            "type": "string"
+          },
+          "couponPct": {
+            "$ref": "common.json#/$defs/Pct"
+          },
+          "maturity": {
+            "$ref": "common.json#/$defs/IsoDate"
+          },
+          "rating": {
+            "type": "string"
+          },
+          "maturityBucket": {
+            "type": "string",
+            "enum": [
+              "short",
+              "intermediate",
+              "long"
+            ]
+          },
+          "quantity": {
+            "type": "number"
+          },
+          "cleanPrice": {
+            "$ref": "common.json#/$defs/Money"
+          },
+          "marketValue": {
+            "$ref": "common.json#/$defs/Money"
+          }
+        },
+        "required": [
+          "isin",
+          "issuer",
+          "quantity"
+        ]
+      }
+    }
+  }
+}

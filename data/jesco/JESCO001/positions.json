@@ -1,0 +1,20 @@
+{
+  "positions": [
+    {
+      "symbol": "US10Y",
+      "description": "U.S. Treasury 10Y",
+      "quantity": 150000,
+      "price": 98.75,
+      "marketValue": 1481250,
+      "strategyTag": "Fixed Income Desk"
+    },
+    {
+      "symbol": "EUETS25",
+      "description": "EU ETS Dec-25",
+      "quantity": 10000,
+      "price": 8.5,
+      "marketValue": 85000,
+      "strategyTag": "Carbon Desk"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "mtd": {
+    "pct": 0.0347,
+    "pnl": 95240,
+    "label": "August 2025"
+  },
+  "ytd": {
+    "pct": 0.1123,
+    "pnl": 326580,
+    "label": "2025"
+  },
+  "sinceInception": {
+    "pct": 0.2894,
+    "pnl": 642180,
+    "since": "2023-03-15"
+  },
+  "annualized": {
+    "pct": 0.158,
+    "benchmarkPct": 0.082
+  },
+  "history": [
+    {
+      "period": "Q2 2025",
+      "returnPct": 0.0732,
+      "pnl": 192450,
+      "excessPct": 0.048,
+      "volPct": 0.078,
+      "sharpe": 1.92
+    },
+    {
+      "period": "2024 Full Year",
+      "returnPct": 0.1876,
+      "pnl": 445820,
+      "excessPct": 0.124,
+      "volPct": 0.092,
+      "sharpe": 1.76
+    }
+  ]
+}

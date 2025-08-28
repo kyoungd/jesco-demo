@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/commissions.json",
+  "title": "Commissions",
+  "type": "object",
+  "properties": {
+    "config": {
+      "type": "object",
+      "properties": {
+        "ratePct": {
+          "$ref": "common.json#/$defs/Pct"
+        },
+        "override": {
+          "type": "object",
+          "properties": {
+            "payeeAccountId": {
+              "type": "string"
+            },
+            "pctOfGross": {
+              "$ref": "common.json#/$defs/Pct"
+            }
+          },
+          "required": [
+            "payeeAccountId",
+            "pctOfGross"
+          ]
+        }
+      },
+      "required": [
+        "ratePct"
+      ]
+    },
+    "snapshots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "period": {
+            "type": "string"
+          },
+          "earned": {
+            "$ref": "common.json#/$defs/Money"
+          },
+          "paid": {
+            "$ref": "common.json#/$defs/Money"
+          },
+          "retained": {
+            "$ref": "common.json#/$defs/Money"
+          }
+        },
+        "required": [
+          "period",
+          "earned"
+        ]
+      }
+    },
+    "byTrade": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "tradeId": {
+            "type": "string"
+          },
+          "baseNotional": {
+            "$ref": "common.json#/$defs/Money"
+          },
+          "calcGross": {
+            "$ref": "common.json#/$defs/Money"
+          },
+          "paidOut": {
+            "$ref": "common.json#/$defs/Money"
+          },
+          "retained": {
+            "$ref": "common.json#/$defs/Money"
+          }
+        },
+        "required": [
+          "tradeId",
+          "calcGross"
+        ]
+      }
+    },
+    "distribution": {
+      "type": "object",
+      "properties": {
+        "retainedPct": {
+          "$ref": "common.json#/$defs/Pct"
+        },
+        "paidPct": {
+          "$ref": "common.json#/$defs/Pct"
+        }
+      }
+    }
+  }
+}

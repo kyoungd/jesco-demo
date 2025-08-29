@@ -1,0 +1,643 @@
+openapi: 3.0.3
+info:
+  title: JESCO Analytics Data API
+  description: REST API for retrieving banking account analytics data
+  version: 1.0.0
+  contact:
+    name: JESCO Analytics Team
+
+servers:
+  - url: http://localhost:3001/api
+    description: Development server
+  - url: https://api.jesco-analytics.com
+    description: Production server
+
+paths:
+  /accounts/{portal}/{accountId}/portfolio:
+    get:
+      summary: Get portfolio summary data
+      description: Retrieve portfolio totals and performance summary for an account
+      parameters:
+        - $ref: '#/components/parameters/Portal'
+        - $ref: '#/components/parameters/AccountId'
+      responses:
+        '200':
+          description: Portfolio data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Portfolio'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /accounts/{portal}/{accountId}/positions:
+    get:
+      summary: Get account positions
+      description: Retrieve all holdings/positions for an account
+      parameters:
+        - $ref: '#/components/parameters/Portal'
+        - $ref: '#/components/parameters/AccountId'
+      responses:
+        '200':
+          description: Positions data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Positions'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /accounts/{portal}/{accountId}/activity:
+    get:
+      summary: Get account activity
+      description: Retrieve cash movements and transactions for an account
+      parameters:
+        - $ref: '#/components/parameters/Portal'
+        - $ref: '#/components/parameters/AccountId'
+      responses:
+        '200':
+          description: Activity data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Activity'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /accounts/{portal}/{accountId}/performance:
+    get:
+      summary: Get performance data
+      description: Retrieve performance metrics and historical data for an account
+      parameters:
+        - $ref: '#/components/parameters/Portal'
+        - $ref: '#/components/parameters/AccountId'
+      responses:
+        '200':
+          description: Performance data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Performance'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /accounts/{portal}/{accountId}/trades:
+    get:
+      summary: Get trading data
+      description: Retrieve trade feed and trading summary for an account
+      parameters:
+        - $ref: '#/components/parameters/Portal'
+        - $ref: '#/components/parameters/AccountId'
+      responses:
+        '200':
+          description: Trading data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trades'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /accounts/{portal}/{accountId}/fixed-income:
+    get:
+      summary: Get fixed income data
+      description: Retrieve bond holdings and fixed income summary for an account
+      parameters:
+        - $ref: '#/components/parameters/Portal'
+        - $ref: '#/components/parameters/AccountId'
+      responses:
+        '200':
+          description: Fixed income data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FixedIncome'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /accounts/{portal}/{accountId}/commissions:
+    get:
+      summary: Get commission data (Saracoti only)
+      description: Retrieve commission data for Saracoti accounts
+      parameters:
+        - $ref: '#/components/parameters/Portal'
+        - $ref: '#/components/parameters/AccountId'
+      responses:
+        '200':
+          description: Commission data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Commissions'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /accounts/{portal}:
+    get:
+      summary: List accounts for a portal
+      description: Retrieve list of available account IDs for a given portal
+      parameters:
+        - $ref: '#/components/parameters/Portal'
+      responses:
+        '200':
+          description: Account list retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  portal:
+                    type: string
+                    example: "jesco"
+                  accounts:
+                    type: array
+                    items:
+                      type: string
+                    example: ["JESCO001"]
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /portals:
+    get:
+      summary: List available portals
+      description: Retrieve list of available portals in the system
+      responses:
+        '200':
+          description: Portal list retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  portals:
+                    type: array
+                    items:
+                      type: string
+                    example: ["jesco", "saracoti"]
+
+components:
+  parameters:
+    Portal:
+      name: portal
+      in: path
+      required: true
+      description: Portal identifier (jesco or saracoti)
+      schema:
+        type: string
+        enum: [jesco, saracoti]
+        example: jesco
+    
+    AccountId:
+      name: accountId
+      in: path
+      required: true
+      description: Account identifier
+      schema:
+        type: string
+        pattern: '^[A-Z0-9]+$'
+        example: JESCO001
+
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Account not found"
+              code:
+                type: string
+                example: "NOT_FOUND"
+
+    ServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Internal server error"
+              code:
+                type: string
+                example: "SERVER_ERROR"
+
+  schemas:
+    Portfolio:
+      type: object
+      properties:
+        asOf:
+          type: string
+          format: date-time
+          description: Data timestamp
+          example: "2025-08-28T04:22:17.849455"
+        totals:
+          type: object
+          properties:
+            portfolioValue:
+              type: number
+              description: Total portfolio value
+              example: 2847320
+            cash:
+              type: number
+              description: Cash balance
+              example: 485600
+            fixedIncome:
+              type: number
+              description: Fixed income holdings value
+              example: 1650800
+            carbonCredits:
+              type: number
+              description: Carbon credits value
+              example: 71000
+        performanceToday:
+          type: object
+          properties:
+            abs:
+              type: number
+              description: Absolute change today
+              example: 127450
+            pct:
+              type: number
+              description: Percentage change today
+              example: 0.0468
+
+    Activity:
+      type: object
+      properties:
+        movements:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                enum: [transfer, profit, loss, dividend, fee]
+                example: "transfer"
+              title:
+                type: string
+                example: "Transfer to Fixed Income Desk"
+              note:
+                type: string
+                example: "For bond purchase allocation"
+              amount:
+                type: number
+                example: -100000
+              when:
+                type: string
+                format: date
+                example: "2025-08-26"
+
+    Performance:
+      type: object
+      properties:
+        mtd:
+          $ref: '#/components/schemas/PerformancePeriod'
+        ytd:
+          $ref: '#/components/schemas/PerformancePeriod'
+        sinceInception:
+          type: object
+          allOf:
+            - $ref: '#/components/schemas/PerformancePeriod'
+            - type: object
+              properties:
+                since:
+                  type: string
+                  format: date
+                  example: "2023-03-15"
+        annualized:
+          type: object
+          properties:
+            pct:
+              type: number
+              example: 0.158
+            benchmarkPct:
+              type: number
+              example: 0.082
+        history:
+          type: array
+          items:
+            type: object
+            properties:
+              period:
+                type: string
+                description: Performance period
+                example: "Q2 2025"
+              returnPct:
+                type: number
+                description: Return percentage
+                example: 0.0732
+              pnl:
+                type: number
+                description: Profit and loss
+                example: 192450
+              excessPct:
+                type: number
+                description: Excess return percentage
+                example: 0.048
+              volPct:
+                type: number
+                description: Volatility percentage
+                example: 0.078
+              sharpe:
+                type: number
+                description: Sharpe ratio
+                example: 1.92
+
+    PerformancePeriod:
+      type: object
+      properties:
+        pct:
+          type: number
+          description: Performance percentage
+          example: 0.0347
+        pnl:
+          type: number
+          description: Profit and loss
+          example: 95240
+        label:
+          type: string
+          description: Period label
+          example: "August 2025"
+
+    Positions:
+      type: object
+      properties:
+        positions:
+          type: array
+          items:
+            type: object
+            properties:
+              symbol:
+                type: string
+                description: Security symbol
+                example: "US10Y"
+              description:
+                type: string
+                description: Security description
+                example: "U.S. Treasury 10Y"
+              quantity:
+                type: number
+                description: Position quantity
+                example: 150000
+              price:
+                type: number
+                description: Current price
+                example: 98.75
+              marketValue:
+                type: number
+                description: Current market value
+                example: 1481250
+              strategyTag:
+                type: string
+                description: Investment strategy tag
+                example: "Fixed Income Desk"
+
+    Trades:
+      type: object
+      properties:
+        filters:
+          type: object
+          properties:
+            range:
+              type: string
+              description: Time range filter
+              example: "last_30_days"
+        summary:
+          type: object
+          properties:
+            tradeVolume:
+              type: number
+              description: Total trade volume
+              example: 3200000
+            tradeCount:
+              type: integer
+              description: Number of trades
+              example: 47
+            avgPerTrade:
+              type: number
+              description: Average per trade
+              example: 68000
+        rows:
+          type: array
+          items:
+            type: object
+            properties:
+              executedAt:
+                type: string
+                format: date-time
+                description: Trade execution timestamp
+                example: "2025-08-25T14:30:00Z"
+              instrument:
+                type: string
+                description: Trading instrument
+                example: "EU ETS Dec-25"
+              side:
+                type: string
+                enum: [BUY, SELL]
+                description: Trade side
+                example: "BUY"
+              quantity:
+                type: number
+                description: Trade quantity
+                example: 10000
+              price:
+                type: number
+                description: Trade price
+                example: 8.5
+              notional:
+                type: number
+                description: Notional value
+                example: 85000
+              venue:
+                type: string
+                description: Trading venue
+                example: "OTC"
+              fees:
+                type: number
+                description: Trading fees
+                example: 0
+
+    FixedIncome:
+      type: object
+      properties:
+        asOf:
+          type: string
+          format: date-time
+          description: Data timestamp
+          example: "2025-08-28T04:22:17.849455"
+        summary:
+          type: object
+          properties:
+            total:
+              type: number
+              description: Total fixed income value
+              example: 1650800
+            pnlToday:
+              type: number
+              description: P&L today
+              example: 31400
+            yieldPct:
+              type: number
+              description: Yield percentage
+              example: 0.0428
+            modifiedDuration:
+              type: number
+              description: Modified duration
+              example: 6.2
+            avgRating:
+              type: string
+              description: Average credit rating
+              example: "AA-"
+        bonds:
+          type: array
+          items:
+            type: object
+            properties:
+              isin:
+                type: string
+                description: ISIN identifier
+                example: "US1234567890"
+              issuer:
+                type: string
+                description: Bond issuer
+                example: "US Treasury"
+              couponPct:
+                type: number
+                description: Coupon percentage
+                example: 0.0425
+              maturity:
+                type: string
+                format: date
+                description: Maturity date
+                example: "2031-05-15"
+              rating:
+                type: string
+                description: Credit rating
+                example: "AA"
+              maturityBucket:
+                type: string
+                enum: [short, medium, long]
+                description: Maturity bucket
+                example: "long"
+              quantity:
+                type: number
+                description: Bond quantity
+                example: 1000000
+              cleanPrice:
+                type: number
+                description: Clean price
+                example: 98.75
+              marketValue:
+                type: number
+                description: Market value
+                example: 987500
+
+    Commissions:
+      type: object
+      properties:
+        config:
+          type: object
+          properties:
+            ratePct:
+              type: number
+              description: Commission rate percentage
+              example: 0.004
+            override:
+              type: object
+              properties:
+                payeeAccountId:
+                  type: string
+                  description: Payee account ID
+                  example: "INTRO-123"
+                pctOfGross:
+                  type: number
+                  description: Percentage of gross
+                  example: 0.3
+        snapshots:
+          type: array
+          items:
+            type: object
+            properties:
+              period:
+                type: string
+                description: Period identifier
+                example: "2025-08"
+              earned:
+                type: number
+                description: Commission earned
+                example: 12840
+              paid:
+                type: number
+                description: Commission paid
+                example: 3850
+              retained:
+                type: number
+                description: Commission retained
+                example: 8990
+        byTrade:
+          type: array
+          items:
+            type: object
+            properties:
+              tradeId:
+                type: string
+                description: Trade identifier
+                example: "T-001"
+              baseNotional:
+                type: number
+                description: Base notional amount
+                example: 85000
+              calcGross:
+                type: number
+                description: Calculated gross commission
+                example: 340
+              paidOut:
+                type: number
+                description: Commission paid out
+                example: 102
+              retained:
+                type: number
+                description: Commission retained
+                example: 238
+        distribution:
+          type: object
+          properties:
+            retainedPct:
+              type: number
+              description: Retained percentage
+              example: 0.7
+            paidPct:
+              type: number
+              description: Paid percentage
+              example: 0.3
+
+security:
+  - BearerAuth: []
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

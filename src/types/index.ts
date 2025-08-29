@@ -21,6 +21,10 @@ export interface Position {
   strategyTag: string
 }
 
+export interface Positions {
+  positions: Position[]
+}
+
 export interface Activity {
   movements: Array<{
     type: 'transfer' | 'profit'
@@ -36,6 +40,14 @@ export interface Performance {
   ytd: { pct: number; pnl: number; label: string }
   sinceInception: { pct: number; pnl: number; since: string }
   annualized: { pct: number; benchmarkPct: number }
+  history?: Array<{
+    period: string
+    returnPct: number
+    pnl: number
+    excessPct: number
+    volPct: number
+    sharpe: number
+  }>
 }
 
 export interface Trade {

@@ -25,6 +25,8 @@
   },
   "homepage": "https://github.com/kyoungd/jesco-demo#readme",
   "dependencies": {
+    "@clerk/nextjs": "^6.31.6",
+    "crypto-browserify": "^3.12.1",
     "next": "^15.5.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"

@@ -1,75 +1,62 @@
-import { promises as fs } from 'fs'
-import path from 'path'
-import { Portfolio, Activity, Performance, Trades, Commission, FixedIncome, Portal } from '@/types'
+import { Portfolio, Activity, Performance, Trades, Commission, FixedIncome, Portal, Positions } from '@/types'
 
-const DATA_DIR = path.join(process.cwd(), 'data')
+const API_BASE_URL = process.env.JESCO_API_URL
+const API_SERVICE_KEY = process.env.JESCO_API_SERVICE_KEY
 
-export async function getPortfolioData(portal: Portal, accountId: string): Promise<Portfolio | null> {
+if (!API_BASE_URL || !API_SERVICE_KEY) {
+  throw new Error('Missing required environment variables: JESCO_API_URL and JESCO_API_SERVICE_KEY')
+}
+
+async function apiCall<T>(endpoint: string): Promise<T | null> {
   try {
-    const filePath = path.join(DATA_DIR, portal, accountId, 'portfolio.json')
-    const data = await fs.readFile(filePath, 'utf-8')
-    return JSON.parse(data)
+    const response = await fetch(`${API_BASE_URL}/api${endpoint}`, {
+      headers: {
+        'x-api-key': API_SERVICE_KEY,
+        'Content-Type': 'application/json',
+      },
+    })
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        return null
+      }
+      throw new Error(`API call failed: ${response.status} ${response.statusText}`)
+    }
+
+    return await response.json()
   } catch (error) {
-    console.error(`Failed to load portfolio data for ${portal}/${accountId}:`, error)
+    console.error(`API call failed for ${endpoint}:`, error)
     return null
   }
+}
+
+export async function getPortfolioData(portal: Portal, accountId: string): Promise<Portfolio | null> {
+  return await apiCall<Portfolio>(`/accounts/${portal}/${accountId}/portfolio`)
 }
 
 export async function getActivityData(portal: Portal, accountId: string): Promise<Activity | null> {
-  try {
-    const filePath = path.join(DATA_DIR, portal, accountId, 'activity.json')
-    const data = await fs.readFile(filePath, 'utf-8')
-    return JSON.parse(data)
-  } catch (error) {
-    console.error(`Failed to load activity data for ${portal}/${accountId}:`, error)
-    return null
-  }
+  return await apiCall<Activity>(`/accounts/${portal}/${accountId}/activity`)
 }
 
 export async function getPerformanceData(portal: Portal, accountId: string): Promise<Performance | null> {
-  try {
-    const filePath = path.join(DATA_DIR, portal, accountId, 'performance.json')
-    const data = await fs.readFile(filePath, 'utf-8')
-    return JSON.parse(data)
-  } catch (error) {
-    console.error(`Failed to load performance data for ${portal}/${accountId}:`, error)
-    return null
-  }
+  return await apiCall<Performance>(`/accounts/${portal}/${accountId}/performance`)
 }
 
 export async function getTradesData(portal: Portal, accountId: string): Promise<Trades | null> {
-  try {
-    const filePath = path.join(DATA_DIR, portal, accountId, 'trades.json')
-    const data = await fs.readFile(filePath, 'utf-8')
-    return JSON.parse(data)
-  } catch (error) {
-    console.error(`Failed to load trades data for ${portal}/${accountId}:`, error)
-    return null
-  }
+  return await apiCall<Trades>(`/accounts/${portal}/${accountId}/trades`)
 }
 
 export async function getCommissionData(portal: Portal, accountId: string): Promise<Commission | null> {
   if (portal !== 'saracoti') return null
-  
-  try {
-    const filePath = path.join(DATA_DIR, portal, accountId, 'commissions.json')
-    const data = await fs.readFile(filePath, 'utf-8')
-    return JSON.parse(data)
-  } catch (error) {
-    console.error(`Failed to load commission data for ${portal}/${accountId}:`, error)
-    return null
-  }
+  return await apiCall<Commission>(`/accounts/${portal}/${accountId}/commissions`)
 }
 
 export async function getFixedIncomeData(portal: Portal, accountId: string): Promise<FixedIncome | null> {
-  try {
-    const filePath = path.join(DATA_DIR, portal, accountId, 'fixed-income.json')
-    const data = await fs.readFile(filePath, 'utf-8')
-    return JSON.parse(data)
-  } catch (error) {
-    console.error(`Failed to load fixed income data for ${portal}/${accountId}:`, error)
-    return null
-  }
+  return await apiCall<FixedIncome>(`/accounts/${portal}/${accountId}/fixed-income`)
+}
+
+export async function getPositionsData(portal: Portal, accountId: string): Promise<Positions | null> {
+  return await apiCall<Positions>(`/accounts/${portal}/${accountId}/positions`)
 }
 
 export function formatCurrency(amount: number): string {

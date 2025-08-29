@@ -3,8 +3,8 @@ import { getTradesData, getCommissionData, formatCurrency, formatDateTime } from
 import { Portal } from '@/types'
 
 interface TradeAnalyticsPageProps {
-  params: { portal: Portal }
-  searchParams: { accountId?: string }
+  params: Promise<{ portal: Portal }>
+  searchParams: Promise<{ accountId?: string }>
 }
 
 export default async function TradeAnalyticsPage({ params, searchParams }: TradeAnalyticsPageProps) {

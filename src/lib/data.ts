@@ -11,7 +11,7 @@ async function apiCall<T>(endpoint: string): Promise<T | null> {
   try {
     const response = await fetch(`${API_BASE_URL}/api${endpoint}`, {
       headers: {
-        'x-api-key': API_SERVICE_KEY,
+        'x-api-key': API_SERVICE_KEY!,
         'Content-Type': 'application/json',
       },
     })

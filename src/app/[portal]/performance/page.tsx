@@ -3,8 +3,8 @@ import { getPerformanceData, formatCurrency, formatPercentage, formatDate } from
 import { Portal } from '@/types'
 
 interface PerformancePageProps {
-  params: { portal: Portal }
-  searchParams: { accountId?: string }
+  params: Promise<{ portal: Portal }>
+  searchParams: Promise<{ accountId?: string }>
 }
 
 export default async function PerformancePage({ params, searchParams }: PerformancePageProps) {

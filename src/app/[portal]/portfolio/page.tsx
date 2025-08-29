@@ -3,8 +3,8 @@ import { getPortfolioData, getActivityData, getPerformanceData, formatCurrency, 
 import { Portal } from '@/types'
 
 interface PortfolioPageProps {
-  params: { portal: Portal }
-  searchParams: { accountId?: string }
+  params: Promise<{ portal: Portal }>
+  searchParams: Promise<{ accountId?: string }>
 }
 
 export default async function PortfolioPage({ params, searchParams }: PortfolioPageProps) {

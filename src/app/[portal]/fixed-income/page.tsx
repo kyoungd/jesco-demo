@@ -3,8 +3,8 @@ import { getFixedIncomeData, formatCurrency, formatPercentage, formatDate } from
 import { Portal } from '@/types'
 
 interface FixedIncomePageProps {
-  params: { portal: Portal }
-  searchParams: { accountId?: string }
+  params: Promise<{ portal: Portal }>
+  searchParams: Promise<{ accountId?: string }>
 }
 
 function getRatingColor(rating: string): string {
